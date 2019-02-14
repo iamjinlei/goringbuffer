@@ -5,9 +5,15 @@ A simple thread safe ring buffer implementation that supports add and iterate op
 
 Assume we have following ring buffer
 
+```
 +----+----+----+----+----+----
 | p0 | p1 | p2 | p3 | p4 |
 +----+----+----+----+----+----
+```
+
+
+And the code is
+
 
 ```
 r := goringbuffer.New(10)
