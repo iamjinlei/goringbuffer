@@ -1,4 +1,4 @@
-package goringbuffer
+package buffer
 
 import (
 	"sync/atomic"
@@ -34,4 +34,8 @@ func (r *Ring) Do(f func(interface{})) {
 			f(e)
 		}
 	}
+}
+
+func (r *Ring) Capacity() int32 {
+	return r.n
 }

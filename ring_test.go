@@ -1,4 +1,4 @@
-package goringbuffer
+package buffer
 
 import (
 	"math/rand"
@@ -14,20 +14,21 @@ func TestSimple(t *testing.T) {
 	r.Add(1)
 	r.Add(2)
 	r.Add(3)
-	sum := []int{0}
+	sum := 0
 	r.Do(func(e interface{}) {
-		sum[0] += e.(int)
+		sum += e.(int)
 	})
-	assert.Equal(t, 6, sum[0])
+	assert.Equal(t, 6, sum)
+	assert.Equal(t, int32(10), r.Capacity())
 
 	r.Add(4)
 	r.Add(5)
 	r.Add(6)
-	sum[0] = 0
+	sum = 0
 	r.Do(func(e interface{}) {
-		sum[0] += e.(int)
+		sum += e.(int)
 	})
-	assert.Equal(t, 21, sum[0])
+	assert.Equal(t, 21, sum)
 
 	r.Add(7)
 	r.Add(8)
@@ -35,11 +36,11 @@ func TestSimple(t *testing.T) {
 	r.Add(10)
 	r.Add(11)
 	r.Add(12)
-	sum[0] = 0
+	sum = 0
 	r.Do(func(e interface{}) {
-		sum[0] += e.(int)
+		sum += e.(int)
 	})
-	assert.Equal(t, 75, sum[0])
+	assert.Equal(t, 75, sum)
 }
 
 func TestStressRun(t *testing.T) {
@@ -68,9 +69,9 @@ func TestStressRun(t *testing.T) {
 				wg.Done()
 				return
 			default:
-				sum := []int{0}
+				data := 0
 				r.Do(func(e interface{}) {
-					sum[0] += e.(int)
+					data += e.(int)
 				})
 			}
 		}
