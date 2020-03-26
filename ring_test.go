@@ -44,8 +44,6 @@ func TestSimple(t *testing.T) {
 }
 
 func TestStressRun(t *testing.T) {
-	//t.Skip("skipping stress test")
-
 	add := func(r *Ring, d time.Duration, wg *sync.WaitGroup) {
 		t.Log("add thread started")
 		timer := time.NewTimer(d)
@@ -77,7 +75,7 @@ func TestStressRun(t *testing.T) {
 		}
 	}
 
-	d := 60 * time.Second
+	d := 30 * time.Second
 	n := 4
 
 	r := New(10)
@@ -91,4 +89,24 @@ func TestStressRun(t *testing.T) {
 		go sum(r, d, &wg)
 	}
 	wg.Wait()
+}
+
+func BenchmarkAdd(b *testing.B) {
+	r := New(10)
+	for i := 0; i < b.N; i++ {
+		r.Add(i)
+	}
+}
+
+func BenchmarkDo(b *testing.B) {
+	r := New(10)
+	for i := 0; i < 10; i++ {
+		r.Add(i)
+	}
+	for i := 0; i < b.N; i++ {
+		data := 0
+		r.Do(func(e interface{}) {
+			data += e.(int)
+		})
+	}
 }
