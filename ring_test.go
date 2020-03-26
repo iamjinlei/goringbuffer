@@ -91,16 +91,18 @@ func TestStressRun(t *testing.T) {
 	wg.Wait()
 }
 
+const size = 64
+
 func BenchmarkAdd(b *testing.B) {
-	r := New(10)
+	r := New(size)
 	for i := 0; i < b.N; i++ {
 		r.Add(i)
 	}
 }
 
 func BenchmarkDo(b *testing.B) {
-	r := New(10)
-	for i := 0; i < 10; i++ {
+	r := New(size)
+	for i := 0; i < size; i++ {
 		r.Add(i)
 	}
 	for i := 0; i < b.N; i++ {
